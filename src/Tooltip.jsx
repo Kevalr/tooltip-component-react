@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const Tooltip = ({ position, children }) => {
   let toolTipPosition = {};
+  
   switch (position) {
     case "top":
       toolTipPosition = {
@@ -12,7 +13,6 @@ const Tooltip = ({ position, children }) => {
 
     case "right":
       toolTipPosition = {
-        top:"-50%",
         left: "100%",
       };
       break;
@@ -25,32 +25,32 @@ const Tooltip = ({ position, children }) => {
       break;
 
     default:
-        //left
       toolTipPosition = {
         left: "-110px",
       };
   }
 
-  const [style, setStyle] = useState({
-    display: "none",
+  const [display, setDisplay] = useState("none");
+
+  const toolTipStyle = {
+    display: display,
     background: "grey",
     boxShadow: "0 0 20px black",
     borderRadius: "5px",
-    color: "black",
     position: "absolute",
-    left: "-100%",
     width: "100px",
     padding: "5px",
     zIndex: 10,
-    textAlign: "center"
-  });
+    textAlign: "center",
+    ...toolTipPosition
+  }
 
   const addDisplayAbsolute = () => {
-    setStyle({ ...style, display: "inline-block" });
+    setDisplay("inline-block");
   };
 
   const addDisplayNone = () => {
-    setStyle({ ...style, display: "none" });
+    setDisplay("none");
   };
 
   return (
@@ -59,7 +59,7 @@ const Tooltip = ({ position, children }) => {
       onMouseLeave={() => addDisplayNone()}
       style={{ position: "relative", display: "inline-block" }}
     >
-      <span style={{ ...style, ...toolTipPosition }}>
+      <span style={toolTipStyle}>
         Hello, this is the tooptip
       </span>
       {children}
